@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ── Tokens ── */
+/* ── Design Tokens ── */
 @theme {
   --color-text: #6b6375;
   --color-text-h: #f3f4f6;
@@ -17,36 +17,11 @@
   --color-away: #f59e0b;
 }
 
-/* ── Base ── */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-}
-
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: -apple-system,
-    BlinkMacSystemFont, "inter", "Segoe UI",
-    sans-serif;
-  display: flex;
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
 }
 
 .animate-pulse-slow {
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: pulse-slow 1.5s ease-in-out infinite;
 }

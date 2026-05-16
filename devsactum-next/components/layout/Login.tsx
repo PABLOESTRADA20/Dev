@@ -20,85 +20,64 @@ export default function Login() {
   }
 
   return (
-    <div style={{
-      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "var(--bg)", position: "relative", overflow: "hidden", padding: "24px",
-    }}>
+    <div className="min-h-screen flex items-center justify-center bg-bg relative overflow-hidden p-6">
       {/* Decoración de fondo */}
-      <div style={{ position: "absolute", top: "-10%", left: "-10%", width: "40%", height: "40%", background: "rgba(196,154,255,.08)", borderRadius: "50%", filter: "blur(80px)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: "-10%", right: "-10%", width: "30%", height: "30%", background: "rgba(255,148,168,.04)", borderRadius: "50%", filter: "blur(80px)", pointerEvents: "none" }} />
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-[rgba(196,154,255,0.08)] rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute -bottom-[10%] -right-[10%] w-[30%] h-[30%] bg-[rgba(255,148,168,0.04)] rounded-full blur-[80px] pointer-events-none" />
 
-      <div style={{ width: "100%", maxWidth: 420, position: "relative", zIndex: 1 }}>
-
+      <div className="w-full max-w-[420px] relative z-10">
         {/* Logo */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
-          <div style={{ width: 60, height: 60, borderRadius: 14, background: "var(--bg-surface)", border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
-            <Terminal size={28} style={{ color: "var(--accent)" }} strokeWidth={1.8} />
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-[60px] h-[60px] rounded-[14px] bg-bg-surface border border-border flex items-center justify-center mb-4">
+            <Terminal size={28} className="text-accent" strokeWidth={1.8} />
           </div>
-          <h1 style={{ fontSize: 26, fontWeight: 900, letterSpacing: "-1px", color: "var(--accent)", margin: 0 }}>
-            Devsanctum
-          </h1>
-          <p style={{ fontSize: 13, color: "var(--text)", marginTop: 8 }}>Welcome back</p>
+          <h1 className="text-[26px] font-black tracking-tight text-accent m-0">Devsanctum</h1>
+          <p className="text-[13px] text-text mt-2">Welcome back</p>
         </div>
 
         {/* Card */}
-        <div style={{ background: "rgba(19,19,19,.8)", border: "1px solid var(--border)", borderRadius: 18, padding: 32 }}>
+        <div className="bg-[rgba(19,19,19,0.8)] border border-border rounded-[18px] p-8">
           <form onSubmit={handleSubmit}>
-
             {/* Email */}
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ display: "block", fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--text)", marginBottom: 8 }}>
+            <div className="mb-5">
+              <label className="block text-[10px] font-extrabold uppercase tracking-[1.5px] text-text mb-2">
                 Username or Email
               </label>
-              <div style={{ position: "relative" }}>
-                <AtSign size={16} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "var(--text)", pointerEvents: "none" }} strokeWidth={1.8} />
+              <div className="relative">
+                <AtSign size={16} className="absolute left-[14px] top-1/2 -translate-y-1/2 text-text pointer-events-none" strokeWidth={1.8} />
                 <input
                   type="text"
                   placeholder="dev@sanctum.sh"
                   value={form.email}
                   onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                  style={{
-                    width: "100%", height: 46, paddingLeft: 42, paddingRight: 14,
-                    background: "#000", border: "1px solid var(--border)", borderRadius: 9,
-                    fontSize: 13, color: "var(--text-h)", fontFamily: "inherit", outline: "none",
-                    boxSizing: "border-box", transition: "border-color .15s",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "var(--accent-border)")}
-                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                  className="w-full h-[46px] pl-[42px] pr-[14px] bg-black border border-border rounded-[9px] text-[13px] text-text-h outline-none box-border transition-colors duration-150 focus:border-accent-border"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div style={{ marginBottom: 28 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <label style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--text)" }}>
+            <div className="mb-7">
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-[10px] font-extrabold uppercase tracking-[1.5px] text-text">
                   Password
                 </label>
-                <button type="button" style={{ fontSize: 10, fontWeight: 700, color: "var(--accent)", background: "none", border: "none", cursor: "pointer", textTransform: "uppercase", letterSpacing: 1 }}>
+                <button type="button" className="text-[10px] font-bold text-accent bg-transparent border-none cursor-pointer uppercase tracking-[1px]">
                   Forgot password?
                 </button>
               </div>
-              <div style={{ position: "relative" }}>
-                <Lock size={16} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "var(--text)", pointerEvents: "none" }} strokeWidth={1.8} />
+              <div className="relative">
+                <Lock size={16} className="absolute left-[14px] top-1/2 -translate-y-1/2 text-text pointer-events-none" strokeWidth={1.8} />
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
-                  style={{
-                    width: "100%", height: 46, paddingLeft: 42, paddingRight: 46,
-                    background: "#000", border: "1px solid var(--border)", borderRadius: 9,
-                    fontSize: 13, color: "var(--text-h)", fontFamily: "inherit", outline: "none",
-                    boxSizing: "border-box", transition: "border-color .15s",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "var(--accent-border)")}
-                  onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+                  className="w-full h-[46px] pl-[42px] pr-[46px] bg-black border border-border rounded-[9px] text-[13px] text-text-h outline-none box-border transition-colors duration-150 focus:border-accent-border"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "var(--text)", display: "flex" }}
+                  className="absolute right-[14px] top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-text flex"
                 >
                   {showPassword ? <EyeOff size={15} strokeWidth={1.8} /> : <Eye size={15} strokeWidth={1.8} />}
                 </button>
@@ -109,26 +88,21 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              style={{
-                width: "100%", height: 46, borderRadius: 9, border: "none", cursor: loading ? "not-allowed" : "pointer",
-                background: "var(--accent)", color: "#1a0033", fontSize: 13, fontWeight: 800,
-                letterSpacing: 0.5, transition: "opacity .15s", opacity: loading ? .7 : 1,
-                fontFamily: "inherit",
-              }}
+              className={`w-full h-[46px] rounded-[9px] border-none bg-accent text-[#1a0033] text-[13px] font-extrabold tracking-[0.5px] transition-opacity duration-150 ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
             >
               {loading ? "Entrando..." : "Sign In"}
             </button>
           </form>
 
           {/* Divider */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "24px 0" }}>
-            <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
-            <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "var(--text)" }}>Or continue with</span>
-            <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-[10px] font-bold uppercase tracking-[2px] text-text">Or continue with</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
 
           {/* Social login */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div className="grid grid-cols-2 gap-3">
             {[
               { label: "Google", icon: (
                 <svg width="18" height="18" viewBox="0 0 24 24">
@@ -138,19 +112,12 @@ export default function Login() {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
               )},
-              { label: "GitHub", icon: <GitBranch size={18} strokeWidth={1.8} style={{ color: "var(--text-h)" }} /> },
+              { label: "GitHub", icon: <GitBranch size={18} strokeWidth={1.8} className="text-text-h" /> },
             ].map(({ label, icon }) => (
               <button
                 key={label}
                 type="button"
-                style={{
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                  height: 42, background: "var(--bg-surface)", border: "1px solid var(--border)",
-                  borderRadius: 9, cursor: "pointer", fontSize: 12, fontWeight: 600,
-                  color: "var(--text-h)", fontFamily: "inherit", transition: "border-color .15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent-border)")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+                className="flex items-center justify-center gap-2 h-[42px] bg-bg-surface border border-border rounded-[9px] cursor-pointer text-[12px] font-semibold text-text-h transition-colors duration-150 hover:border-accent-border"
               >
                 {icon} {label}
               </button>
@@ -159,11 +126,11 @@ export default function Login() {
         </div>
 
         {/* Footer */}
-        <p style={{ textAlign: "center", fontSize: 13, color: "var(--text)", marginTop: 24 }}>
+        <p className="text-center text-[13px] text-text mt-6">
           Don't have an account?{" "}
           <button
             type="button"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--accent)", fontWeight: 700, fontSize: 13, fontFamily: "inherit" }}
+            className="bg-transparent border-none cursor-pointer text-accent font-bold text-[13px]"
             onClick={() => setActivePage("Feed")}
           >
             Sign up

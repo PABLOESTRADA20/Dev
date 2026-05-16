@@ -20,6 +20,7 @@ export type Page =
   | "Login"
   | "Perfil"
   | "Notificaciones"
+  | "Configuración"
 
 // ─── Notifications ────────────────────────────────────────────────────────────
 

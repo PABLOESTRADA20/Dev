@@ -21,90 +21,41 @@ export function NotificationRow({ notification: n, onRead }: Props) {
   return (
     <div
       onClick={onRead}
-      style={{
-        display: "flex",
-        gap: 14,
-        padding: "14px 24px",
-        borderBottom: "1px solid var(--border)",
-        cursor: "pointer",
-        background: n.read ? "transparent" : "rgba(196,154,255,.03)",
-        transition: "background .15s",
-        position: "relative",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-hover)")}
-      onMouseLeave={(e) => (e.currentTarget.style.background = n.read ? "transparent" : "rgba(196,154,255,.03)")}
+      className={`flex gap-3.5 px-6 py-3.5 border-b border-border cursor-pointer transition-colors duration-150 relative hover:bg-bg-hover ${
+        n.read ? "bg-transparent" : "bg-[rgba(196,154,255,0.03)]"
+      }`}
     >
       {/* Unread indicator */}
       {!n.read && (
-        <div
-          style={{
-            position: "absolute",
-            left: 8,
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: 6,
-            height: 6,
-            borderRadius: "50%",
-            background: "var(--accent)",
-            flexShrink: 0,
-          }}
-        />
+        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
       )}
 
       {/* Type icon */}
       <NotificationIcon type={n.type} size={14} />
 
       {/* Content */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        {/* Actor avatar + text */}
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start gap-2.5">
           <div
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              background: n.actor.avatarGradient,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#fff",
-              flexShrink: 0,
-            }}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
+            style={{ background: n.actor.avatarGradient }}
           >
             {n.actor.initials}
           </div>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 13, color: "var(--text)", margin: "0 0 4px", lineHeight: 1.5 }}>
-              <span style={{ fontWeight: 700, color: "var(--text-h)" }}>
-                {n.actor.name}
-              </span>{" "}
+          <div className="flex-1 min-w-0">
+            <p className="text-[13px] text-text m-0 mb-1 leading-[1.5]">
+              <span className="font-bold text-text-h">{n.actor.name}</span>{" "}
               {ACTION_LABEL[n.type]}
             </p>
 
             {n.postPreview && (
-              <p
-                style={{
-                  fontSize: 11,
-                  color: "var(--text)",
-                  margin: "0 0 4px",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  paddingLeft: 8,
-                  borderLeft: "2px solid var(--border)",
-                  opacity: 0.7,
-                }}
-              >
+              <p className="text-[11px] text-text m-0 mb-1 overflow-hidden text-ellipsis whitespace-nowrap pl-2 border-l-2 border-border opacity-70">
                 {n.postPreview}
               </p>
             )}
 
-            <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>
-              {n.createdAt}
-            </span>
+            <span className="text-[10px] text-text opacity-50">{n.createdAt}</span>
           </div>
         </div>
       </div>

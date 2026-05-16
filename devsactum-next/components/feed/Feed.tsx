@@ -11,14 +11,7 @@ const POSTS = [
     handle: "@jdalton_dev",
     time: "2h ago",
     text: "Optimizing the hydration loop for the new reactive engine. Reduced TTI by 40% using a custom worker-thread scheduler. Check out the core implementation:",
-    code: `async function hydrate(root: Node) {
-  // Offload expensive diffing to Worker
-  const patch = await worker.computeDiff(root);
-
-  requestIdleCallback(() => {
-    applyPatch(root, patch);
-  });
-}`,
+    code: `async function hydrate(root: Node) {\n  // Offload expensive diffing to Worker\n  const patch = await worker.computeDiff(root);\n\n  requestIdleCallback(() => {\n    applyPatch(root, patch);\n  });\n}`,
     likes: 1200, comments: 84, shares: 12,
     liked: false,
     avatarColor: "#c49aff", avatarBg: "rgba(196,154,255,.15)",
@@ -66,60 +59,58 @@ export default function Feed() {
   }
 
   return (
-    <div className="feed-area" style={{ position: "relative" }}>
+    <div className="relative">
       {/* Live pulse */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "16px 24px 0" }}>
-        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--tertiary)", flexShrink: 0 }} />
-        <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", color: "var(--text)" }}>
+      <div className="flex items-center gap-2 px-6 pt-4">
+        <div className="w-2 h-2 rounded-full bg-tertiary shrink-0" />
+        <span className="text-[10px] font-bold uppercase tracking-[1px] text-text">
           Live activity from your cluster
         </span>
       </div>
 
       {/* Posts */}
-      <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <div className="px-6 py-5 flex flex-col gap-8">
         {POSTS.map((post) => (
           <article
             key={post.id}
-            style={{
-              background: post.milestone ? "var(--bg-surface)" : "transparent",
-              border: post.milestone ? "1px solid var(--border)" : "none",
-              borderRadius: post.milestone ? 16 : 0,
-              padding: post.milestone ? 24 : "0 0 32px",
-              borderBottom: post.milestone ? "none" : "1px solid var(--border)",
-            }}
+            className={post.milestone
+              ? "bg-bg-surface border border-border rounded-2xl p-6"
+              : "border-b border-border pb-8 bg-transparent"
+            }
           >
-            <div style={{ display: "flex", gap: 16 }}>
+            <div className="flex gap-4">
               {/* Avatar */}
-              <div style={{ width: 44, height: 44, borderRadius: 10, background: post.avatarBg, color: post.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
+              <div
+                className="w-11 h-11 rounded-[10px] flex items-center justify-center text-[13px] font-bold shrink-0"
+                style={{ background: post.avatarBg, color: post.avatarColor }}
+              >
                 {post.initials}
               </div>
 
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div className="flex-1 min-w-0">
                 {/* Header */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                <div className="flex justify-between items-start mb-2">
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-h)" }}>{post.name}</div>
-                    <div style={{ fontSize: 12, color: "var(--text)", marginTop: 2 }}>{post.handle} · {post.time}</div>
+                    <div className="text-[15px] font-bold text-text-h">{post.name}</div>
+                    <div className="text-[12px] text-text mt-0.5">{post.handle} · {post.time}</div>
                   </div>
-                  <button style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", padding: 4 }}>
+                  <button className="bg-transparent border-none cursor-pointer text-text p-1">
                     <MoreHorizontal size={16} strokeWidth={1.8} />
                   </button>
                 </div>
 
                 {/* Text */}
                 {post.text && (
-                  <p style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.7, marginBottom: 12 }}>
-                    {post.text}
-                  </p>
+                  <p className="text-[14px] text-text leading-[1.7] mb-3">{post.text}</p>
                 )}
 
                 {/* Code block */}
                 {post.code && (
-                  <div style={{ borderRadius: 10, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 14 }}>
-                    <div style={{ background: "var(--bg-hover)", padding: "8px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 10, fontFamily: "monospace", color: "var(--text)", textTransform: "uppercase", letterSpacing: 1 }}>scheduler.ts</span>
+                  <div className="rounded-[10px] overflow-hidden border border-border mb-3.5">
+                    <div className="bg-bg-hover px-3.5 py-2 flex justify-between items-center">
+                      <span className="text-[10px] font-mono text-text uppercase tracking-[1px]">scheduler.ts</span>
                     </div>
-                    <pre style={{ margin: 0, padding: "16px", background: "#000", fontSize: 12, fontFamily: "monospace", color: "#c49aff", overflowX: "auto", lineHeight: 1.6 }}>
+                    <pre className="m-0 p-4 bg-black text-[12px] font-mono text-accent overflow-x-auto leading-[1.6]">
                       <code>{post.code}</code>
                     </pre>
                   </div>
@@ -127,52 +118,52 @@ export default function Feed() {
 
                 {/* Tags */}
                 {post.tags && (
-                  <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                  <div className="flex gap-2 mb-3">
                     {post.tags.map((tag) => (
-                      <span key={tag} style={{ background: "var(--accent-bg)", color: "var(--accent)", border: "1px solid var(--accent-border)", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 99, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      <span key={tag} className="bg-accent-bg text-accent border border-accent-border text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-[0.5px]">
                         {tag}
                       </span>
                     ))}
                   </div>
                 )}
 
-                {/* Milestone bento */}
+                {/* Milestone */}
                 {post.milestone && (
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12, marginBottom: 14 }}>
-                    <div style={{ background: "var(--bg-hover)", border: "1px solid var(--border)", borderRadius: 10, padding: 16 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 8 }}>Milestone</span>
-                      <p style={{ fontSize: 13, color: "var(--text-h)", fontStyle: "italic", lineHeight: 1.5, margin: 0 }}>"{post.milestone.quote}"</p>
+                  <div className="grid gap-3 mb-3.5">
+                    <div className="bg-bg-hover border border-border rounded-[10px] p-4">
+                      <span className="text-[10px] font-bold text-accent uppercase tracking-[1px] block mb-2">Milestone</span>
+                      <p className="text-[13px] text-text-h italic leading-[1.5] m-0">"{post.milestone.quote}"</p>
                     </div>
-                    <div style={{ background: "var(--bg-hover)", border: "1px solid var(--border)", borderRadius: 10, padding: 16, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                      <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                        <span style={{ fontSize: 28, fontWeight: 900, color: "var(--text-h)", letterSpacing: "-1px" }}>{post.milestone.stat}</span>
-                        <span style={{ fontSize: 11, color: "var(--text)" }}>{post.milestone.statLabel}</span>
+                    <div className="bg-bg-hover border border-border rounded-[10px] p-4 flex flex-col justify-center">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-[28px] font-black text-text-h tracking-tight">{post.milestone.stat}</span>
+                        <span className="text-[11px] text-text">{post.milestone.statLabel}</span>
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text)", textTransform: "uppercase", letterSpacing: 1, marginTop: 4 }}>{post.milestone.statCaption}</span>
+                      <span className="text-[10px] font-bold text-text uppercase tracking-[1px] mt-1">{post.milestone.statCaption}</span>
                     </div>
                   </div>
                 )}
 
                 {/* Actions */}
-                <div style={{ display: "flex", gap: 24 }}>
+                <div className="flex gap-6">
                   <button
                     onClick={() => toggleLike(post.id)}
-                    style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, color: likes[post.id].liked ? "var(--tertiary)" : "var(--text)", transition: "color .15s", padding: 0 }}
+                    className={`flex items-center gap-1.5 bg-transparent border-none cursor-pointer text-[12px] font-bold transition-colors duration-150 p-0 ${likes[post.id].liked ? "text-tertiary" : "text-text"}`}
                   >
                     <Heart size={16} strokeWidth={1.8} fill={likes[post.id].liked ? "currentColor" : "none"} />
                     {fmt(likes[post.id].count)}
                   </button>
-                  <button style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "var(--text)", padding: 0 }}>
+                  <button className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer text-[12px] font-bold text-text p-0">
                     <MessageSquare size={16} strokeWidth={1.8} />
                     {post.comments}
                   </button>
                   {post.shares > 0 && (
-                    <button style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "var(--text)", padding: 0 }}>
+                    <button className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer text-[12px] font-bold text-text p-0">
                       <Repeat2 size={16} strokeWidth={1.8} />
                       {post.shares}
                     </button>
                   )}
-                  <button style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "var(--text)", padding: 0 }}>
+                  <button className="flex items-center gap-1.5 bg-transparent border-none cursor-pointer text-[12px] font-bold text-text p-0">
                     <Share2 size={16} strokeWidth={1.8} />
                   </button>
                 </div>
@@ -183,8 +174,8 @@ export default function Feed() {
       </div>
 
       {/* FAB */}
-      <button style={{ position: "fixed", right: 24, bottom: 24, width: 52, height: 52, borderRadius: 12, background: "var(--accent)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50 }}>
-        <Plus size={20} style={{ color: "#1a0033" }} strokeWidth={2.5} />
+      <button className="fixed right-6 bottom-6 w-[52px] h-[52px] rounded-[12px] bg-accent border-none cursor-pointer flex items-center justify-center z-50">
+        <Plus size={20} className="text-[#1a0033]" strokeWidth={2.5} />
       </button>
     </div>
   )

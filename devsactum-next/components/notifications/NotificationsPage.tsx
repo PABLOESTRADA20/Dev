@@ -9,48 +9,18 @@ export default function NotificationsPage() {
   const { notifications, unreadCount, markRead, markAllRead } = useNotifications()
 
   return (
-    <div style={{ padding: "24px", maxWidth: 680, margin: "0 auto" }}>
+    <div className="px-6 py-6 max-w-[680px] mx-auto">
 
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 28,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 9,
-              background: "var(--accent-bg)",
-              border: "1px solid var(--accent-border)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Bell size={16} style={{ color: "var(--accent)" }} strokeWidth={1.8} />
+      <div className="flex items-center justify-between mb-7">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-[9px] bg-accent-bg border border-accent-border flex items-center justify-center">
+            <Bell size={16} className="text-accent" strokeWidth={1.8} />
           </div>
           <div>
-            <h1
-              style={{
-                fontSize: 22,
-                fontWeight: 900,
-                letterSpacing: "-0.5px",
-                color: "var(--text-h)",
-                margin: 0,
-              }}
-            >
-              Notificaciones
-            </h1>
+            <h1 className="text-[22px] font-black tracking-[-0.5px] text-text-h m-0">Notificaciones</h1>
             {unreadCount > 0 && (
-              <p style={{ fontSize: 11, color: "var(--text)", margin: "2px 0 0" }}>
-                {unreadCount} sin leer
-              </p>
+              <p className="text-[11px] text-text m-0 mt-0.5">{unreadCount} sin leer</p>
             )}
           </div>
         </div>
@@ -58,19 +28,7 @@ export default function NotificationsPage() {
         {unreadCount > 0 && (
           <button
             onClick={markAllRead}
-            style={{
-              background: "none",
-              border: "1px solid var(--accent-border)",
-              borderRadius: 7,
-              padding: "6px 14px",
-              fontSize: 11,
-              fontWeight: 700,
-              color: "var(--accent)",
-              cursor: "pointer",
-              transition: "background .15s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--accent-bg)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+            className="bg-transparent border border-accent-border rounded-[7px] px-3.5 py-1.5 text-[11px] font-bold text-accent cursor-pointer transition-colors duration-150 hover:bg-accent-bg"
           >
             Marcar todo como leído
           </button>
@@ -78,30 +36,15 @@ export default function NotificationsPage() {
       </div>
 
       {/* Filter tabs */}
-      <div
-        style={{
-          display: "flex",
-          gap: 4,
-          marginBottom: 20,
-          borderBottom: "1px solid var(--border)",
-          paddingBottom: 0,
-        }}
-      >
+      <div className="flex gap-1 mb-5 border-b border-border">
         {["Todas", "Sin leer", "Menciones"].map((tab) => (
           <button
             key={tab}
-            style={{
-              background: "none",
-              border: "none",
-              borderBottom: tab === "Todas" ? "2px solid var(--accent)" : "2px solid transparent",
-              padding: "8px 16px",
-              fontSize: 12,
-              fontWeight: tab === "Todas" ? 700 : 500,
-              color: tab === "Todas" ? "var(--accent)" : "var(--text)",
-              cursor: "pointer",
-              transition: "color .15s",
-              marginBottom: -1,
-            }}
+            className={`bg-transparent border-none border-b-2 px-4 py-2 text-[12px] cursor-pointer transition-colors duration-150 -mb-px ${
+              tab === "Todas"
+                ? "border-accent text-accent font-bold"
+                : "border-transparent text-text font-medium hover:text-text-h"
+            }`}
           >
             {tab}
           </button>
@@ -110,110 +53,39 @@ export default function NotificationsPage() {
 
       {/* Notification list */}
       {notifications.length > 0 ? (
-        <div
-          style={{
-            background: "var(--bg-surface)",
-            border: "1px solid var(--border)",
-            borderRadius: 14,
-            overflow: "hidden",
-          }}
-        >
+        <div className="bg-bg-surface border border-border rounded-[14px] overflow-hidden">
           {/* Unread section */}
           {notifications.some((n) => !n.read) && (
             <>
-              <div
-                style={{
-                  padding: "10px 24px",
-                  fontSize: 10,
-                  fontWeight: 800,
-                  textTransform: "uppercase",
-                  letterSpacing: 1.5,
-                  color: "var(--text)",
-                  opacity: 0.5,
-                  background: "var(--bg-hover)",
-                  borderBottom: "1px solid var(--border)",
-                }}
-              >
+              <div className="px-6 py-2.5 text-[10px] font-extrabold uppercase tracking-[1.5px] text-text opacity-50 bg-bg-hover border-b border-border">
                 Nuevas
               </div>
-              {notifications
-                .filter((n) => !n.read)
-                .map((n) => (
-                  <NotificationRow
-                    key={n.id}
-                    notification={n}
-                    onRead={() => markRead(n.id)}
-                  />
-                ))}
+              {notifications.filter((n) => !n.read).map((n) => (
+                <NotificationRow key={n.id} notification={n} onRead={() => markRead(n.id)} />
+              ))}
             </>
           )}
 
           {/* Read section */}
           {notifications.some((n) => n.read) && (
             <>
-              <div
-                style={{
-                  padding: "10px 24px",
-                  fontSize: 10,
-                  fontWeight: 800,
-                  textTransform: "uppercase",
-                  letterSpacing: 1.5,
-                  color: "var(--text)",
-                  opacity: 0.5,
-                  background: "var(--bg-hover)",
-                  borderBottom: "1px solid var(--border)",
-                  borderTop: notifications.some((n) => !n.read)
-                    ? "1px solid var(--border)"
-                    : "none",
-                }}
-              >
+              <div className={`px-6 py-2.5 text-[10px] font-extrabold uppercase tracking-[1.5px] text-text opacity-50 bg-bg-hover border-b border-border ${notifications.some((n) => !n.read) ? "border-t border-border" : ""}`}>
                 Anteriores
               </div>
-              {notifications
-                .filter((n) => n.read)
-                .map((n) => (
-                  <NotificationRow
-                    key={n.id}
-                    notification={n}
-                    onRead={() => markRead(n.id)}
-                  />
-                ))}
+              {notifications.filter((n) => n.read).map((n) => (
+                <NotificationRow key={n.id} notification={n} onRead={() => markRead(n.id)} />
+              ))}
             </>
           )}
         </div>
       ) : (
         /* Empty state */
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "80px 24px",
-            color: "var(--text)",
-          }}
-        >
-          <div
-            style={{
-              width: 60,
-              height: 60,
-              borderRadius: 14,
-              background: "var(--bg-surface)",
-              border: "1px solid var(--border)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 16,
-            }}
-          >
-            <Bell size={24} style={{ opacity: 0.2 }} strokeWidth={1.5} />
+        <div className="flex flex-col items-center justify-center py-20 px-6 text-text">
+          <div className="w-[60px] h-[60px] rounded-[14px] bg-bg-surface border border-border flex items-center justify-center mb-4">
+            <Bell size={24} className="opacity-20" strokeWidth={1.5} />
           </div>
-          <p style={{ fontSize: 14, fontWeight: 700, color: "var(--text-h)", margin: "0 0 6px" }}>
-            Todo al día
-          </p>
-          <p style={{ fontSize: 12, color: "var(--text)", margin: 0, opacity: 0.6 }}>
-            No tienes notificaciones pendientes
-          </p>
+          <p className="text-[14px] font-bold text-text-h m-0 mb-1.5">Todo al día</p>
+          <p className="text-[12px] text-text m-0 opacity-60">No tienes notificaciones pendientes</p>
         </div>
       )}
     </div>
