@@ -17,11 +17,86 @@
   --color-away: #f59e0b;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text); }
+* { scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+
 @keyframes pulse-slow {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.5; }
 }
-
-.animate-pulse-slow {
-  animation: pulse-slow 1.5s ease-in-out infinite;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(196, 154, 255, 0.3); }
+  50%       { box-shadow: 0 0 20px rgba(196, 154, 255, 0.6); }
+}
+ 
+.animate-pulse-slow   { animation: pulse-slow 1.5s ease-in-out infinite; }
+.animate-fade-in      { animation: fadeIn 0.3s ease forwards; }
+.animate-slide-in     { animation: slideInLeft 0.25s ease forwards; }
+.animate-spin-slow    { animation: spin-slow 3s linear infinite; }
+.animate-float        { animation: float 3s ease-in-out infinite; }
+.animate-glow         { animation: glow-pulse 2s ease-in-out infinite; }
+ 
+/* ── Skeleton ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bg-surface) 25%, var(--color-bg-hover) 50%, var(--color-bg-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+ 
+/* ── Glass ── */
+.glass {
+  background: rgba(19, 19, 19, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+ 
+/* ── Code highlight ── */
+pre code { 
+  color: var(--color-accent); 
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+ 
+/* ── Focus ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent-border);
+  outline-offset: 2px;
+  border-radius: 6px;
 }

@@ -1,64 +1,64 @@
 "use client"
 
 import React from "react"
-import { NotificationIcon } from "./NotificationIcon"
+import { Heart, MessageSquare, UserPlus, AtSign, Share2 } from "lucide-react"
 import type { Notification } from "@/types"
 
-const ACTION_LABEL: Record<Notification["type"], string> = {
-  like:    "le dio like a tu post",
-  comment: "comentó tu post",
-  follow:  "comenzó a seguirte",
-  mention: "te mencionó en un post",
-  share:   "compartió tu post",
+const TYPE_CONFIG = {
+  like:     { Icon: Heart,         color: "text-tertiary",  label: "dio like a tu post" },
+  comment:  { Icon: MessageSquare, color: "text-accent",    label: "comentó tu post" },
+  follow:   { Icon: UserPlus,      color: "text-online",    label: "empezó a seguirte" },
+  mention:  { Icon: AtSign,        color: "text-[#60a5fa]", label: "te mencionó" },
+  share:    { Icon: Share2,        color: "text-[#f59e0b]", label: "compartió tu post" },
 }
 
-interface Props {
+interface NotificationRowProps {
   notification: Notification
   onRead: () => void
 }
 
-export function NotificationRow({ notification: n, onRead }: Props) {
+export function NotificationRow({ notification, onRead }: NotificationRowProps) {
+  const config = TYPE_CONFIG[notification.type]
+  const Icon = config.Icon
+
   return (
     <div
       onClick={onRead}
-      className={`flex gap-3.5 px-6 py-3.5 border-b border-border cursor-pointer transition-colors duration-150 relative hover:bg-bg-hover ${
-        n.read ? "bg-transparent" : "bg-[rgba(196,154,255,0.03)]"
+      className={`flex items-start gap-4 px-5 py-4 border-b border-border cursor-pointer transition-all duration-150 hover:bg-bg-hover ${
+        !notification.read ? "bg-accent-bg/30" : ""
       }`}
     >
-      {/* Unread indicator */}
-      {!n.read && (
-        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-      )}
-
-      {/* Type icon */}
-      <NotificationIcon type={n.type} size={14} />
+      {/* Avatar + type icon */}
+      <div className="relative shrink-0">
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-bold"
+          style={{ background: notification.actor.avatarGradient }}
+        >
+          {notification.actor.initials}
+        </div>
+        <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-bg-surface border border-border flex items-center justify-center ${config.color}`}>
+          <Icon size={10} strokeWidth={2.5} />
+        </div>
+      </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start gap-2.5">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white shrink-0"
-            style={{ background: n.actor.avatarGradient }}
-          >
-            {n.actor.initials}
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <p className="text-[13px] text-text m-0 mb-1 leading-[1.5]">
-              <span className="font-bold text-text-h">{n.actor.name}</span>{" "}
-              {ACTION_LABEL[n.type]}
-            </p>
-
-            {n.postPreview && (
-              <p className="text-[11px] text-text m-0 mb-1 overflow-hidden text-ellipsis whitespace-nowrap pl-2 border-l-2 border-border opacity-70">
-                {n.postPreview}
-              </p>
-            )}
-
-            <span className="text-[10px] text-text opacity-50">{n.createdAt}</span>
-          </div>
-        </div>
+        <p className="text-[13px] text-text-h m-0 leading-[1.5]">
+          <span className="font-bold">{notification.actor.name}</span>
+          {" "}<span className="text-text opacity-80">{config.label}</span>
+        </p>
+        {notification.postPreview && (
+          <p className="text-[11px] text-text opacity-60 m-0 mt-1 truncate max-w-[340px]">
+            &ldquo;{notification.postPreview}&rdquo;
+          </p>
+        )}
+        <p className="text-[10px] text-text opacity-40 m-0 mt-1">{notification.createdAt}</p>
       </div>
+
+      {/* Unread dot */}
+      {!notification.read && (
+        <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5 animate-pulse-slow" />
+      )}
     </div>
   )
 }
