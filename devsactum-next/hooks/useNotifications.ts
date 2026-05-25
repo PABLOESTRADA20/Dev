@@ -6,8 +6,15 @@ import type { Notification } from "@/types"
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>(MOCK_NOTIFICATIONS)
+  const [activeTab, setActiveTab] = useState<"all" | "unread" | "mentions">("all")
 
   const unreadCount = notifications.filter((n) => !n.read).length
+
+  const filtered = notifications.filter((n) => {
+    if (activeTab === "unread")   return !n.read
+    if (activeTab === "mentions") return n.type === "mention"
+    return true
+  })
 
   const markRead = useCallback((id: string) => {
     setNotifications((prev) =>
@@ -23,5 +30,14 @@ export function useNotifications() {
     setNotifications([])
   }, [])
 
-  return { notifications, unreadCount, markRead, markAllRead, clearAll }
+  return {
+    notifications,
+    filtered,
+    unreadCount,
+    activeTab,
+    setActiveTab,
+    markRead,
+    markAllRead,
+    clearAll,
+  }
 }

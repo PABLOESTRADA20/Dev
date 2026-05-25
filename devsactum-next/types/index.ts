@@ -1,14 +1,3 @@
-// ─── Shared primitives ────────────────────────────────────────────────────────
-
-export interface User {
-  id: string
-  name: string
-  handle: string
-  initials: string
-  avatarColor: string
-  avatarBg: string
-}
-
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
 export type Page =
@@ -29,6 +18,7 @@ export type NotificationType = "like" | "comment" | "follow" | "mention" | "shar
 export interface NotificationActor {
   id: string
   name: string
+  handle: string
   initials: string
   avatarGradient: string
 }
@@ -52,6 +42,7 @@ export interface Post {
   time: string
   text: string
   code?: string
+  codeFile?: string
   tags?: string[]
   milestone?: {
     quote: string
